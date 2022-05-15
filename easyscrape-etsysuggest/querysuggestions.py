@@ -8,19 +8,16 @@ def query(term):
     header = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36','Referer':'https://www.etsy.com/'}
 
     # define url
-    url = f"https://www.etsy.com/suggestions_ajax.php?version=10_12672349415_19&search_query={term}&search_type=all"
+    url = f"https://www.zazzle.com/svc/z3/search/getSuggestedSearch?cv=1&ps=10&skey={term}&strending=true&client=js"
 
     # store http request into html variable
     html = requests.get(url,params=None,headers=header)
     results = html.json()
 
     resultlist = []
-    
-    for result in results["results"]:
-        resultlist.append(result["query"])
+
+    for result in results["data"]["sections"][0]["suggestions"]:
+        resultlist.append(result["term"])
 
     # Remove last element
-    resultlist = resultlist[:-1]
     return resultlist
-
-print(query("Monty Python"))
